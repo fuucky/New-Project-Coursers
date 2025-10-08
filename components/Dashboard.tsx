@@ -6,6 +6,25 @@ import CourseList from './CourseList'
 import Schedule from './Schedule'
 import AddCourse from './AddCourse'
 
+
+// ------------------------------------------------
+// ⭐️ TIPOS ATUALIZADOS PARA COINCIDIR COM AddCourse
+// ------------------------------------------------
+
+type ContentBlock = {
+  id: string
+  content: string // O URL, ou o texto em si
+  type: 'text' | 'video' | 'link' | 'image'
+}
+
+type Lesson = {
+  id: string
+  title: string
+  completed: boolean
+  // MUDANÇA: Substitui content/type por contents: ContentBlock[]
+  contents: ContentBlock[] 
+}
+
 type Course = {
   id: string
   title: string
@@ -14,13 +33,10 @@ type Course = {
   progress: number
 }
 
-type Lesson = {
-  id: string
-  title: string
-  content: string
-  type: 'text' | 'video' | 'link' | 'image'
-  completed: boolean
-}
+// ------------------------------------------------
+// FIM DOS TIPOS ATUALIZADOS
+// ------------------------------------------------
+
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('courses')
@@ -100,6 +116,7 @@ export default function Dashboard() {
       </main>
 
       {showAddCourse && (
+        // O ERRO FOI RESOLVIDO: addCourse agora aceita o novo tipo Course/Lesson
         <AddCourse onAdd={addCourse} onClose={() => setShowAddCourse(false)} />
       )}
     </div>

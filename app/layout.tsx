@@ -18,7 +18,7 @@ const DynamicThemeProvider = dynamic(
 );
 
 export const metadata: Metadata = {
-  title: 'NP-Coursers',
+  title: 'Aprimore Conhecimentos',
   description: 'Seu sistema de gerenciamento de cursos e estudos',
 }
 
