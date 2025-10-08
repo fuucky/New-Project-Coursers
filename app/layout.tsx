@@ -1,13 +1,26 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import { ThemeProvider } from '../components/ThemeProvider'
-// Importe o novo componente em vez do ThemeToggle
+// 🛑 Remova a importação direta: import { ThemeProvider } from '../components/ThemeProvider' 
+
 import { ThemeToggle } from 'components/ThemeToggle'
+import dynamic from 'next/dynamic' // <-- Importe o dynamic
 
 const inter = Inter({ subsets: ['latin'] })
 
-// ... (Metadata)
+// 1. Dynamic Import simplificado, pois agora é 'export default'
+const DynamicThemeProvider = dynamic(
+  () => import('../components/ThemeProvider'), // Não precisa mais de .then((mod) => mod.ThemeProvider)
+  {
+    ssr: false, // CHAVE para resolver a hidratação do 'next-themes'
+    loading: () => null 
+  }
+);
+
+export const metadata: Metadata = {
+  title: 'NP-Coursers',
+  description: 'Seu sistema de gerenciamento de cursos e estudos',
+}
 
 export default function RootLayout({
   children,
@@ -15,17 +28,17 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <ThemeProvider>
-      <html lang="pt-BR" suppressHydrationWarning>
-        <body 
-          className={`${inter.className} min-h-screen transition-colors duration-500`}
-        >
+    // 2. Mantenha suppressHydrationWarning na tag <html>
+    <html lang="pt-BR" suppressHydrationWarning> 
+      <body 
+        className={`${inter.className} min-h-screen transition-colors duration-500`}
+      >
+        <DynamicThemeProvider> 
           <header className="flex justify-between items-center p-4 shadow dark:shadow-gray-700 bg-white dark:bg-gray-900">
             <span className="text-xl font-bold text-gray-900 dark:text-gray-100">
               Aprimore Conhecimentos
             </span>
             
-            {/* 3. SUBSTITUA: Use o MountedToggle aqui */}
             <ThemeToggle /> 
 
           </header>
@@ -33,8 +46,8 @@ export default function RootLayout({
           <main className="p-4 bg-white dark:bg-gray-900 min-h-[calc(100vh-64px)]"> 
             {children}
           </main>
-        </body>
-      </html>
-    </ThemeProvider>
+        </DynamicThemeProvider>
+      </body>
+    </html>
   )
 }
