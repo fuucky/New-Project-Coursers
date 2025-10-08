@@ -13,7 +13,7 @@ export default function HomePage() {
   useEffect(() => {
     // ⚠️ Atenção: A leitura do localStorage deve ser feita dentro do useEffect
     // para garantir que só ocorra no lado do cliente.
-    const loggedIn = localStorage.getItem('isLoggedIn') === 'true'
+    const loggedIn = sessionStorage.getItem('isLoggedIn') === 'true'
     
     if (!loggedIn) {
       // 2. Redirecionamento para a página de login

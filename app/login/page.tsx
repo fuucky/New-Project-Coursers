@@ -12,9 +12,13 @@ export default function LoginPage() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
-    // Simple password check - in real app, use proper auth
+    // Verifica a senha
     if (password === '123') {
-      localStorage.setItem('isLoggedIn', 'true')
+
+      // ⭐️ CORREÇÃO: Usar sessionStorage para persisttir apenas na sessão da aba
+      sessionStorage.setItem('isLoggedIn', 'true');
+
+      // Redireciona para a pagina principal
       router.push('/')
     } else {
       setError('Invalid password')
