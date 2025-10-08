@@ -2,16 +2,18 @@
 
 import { Edit, Trash2, CheckCircle, Circle } from 'lucide-react'
 import { Course, Lesson } from '../types'
-
+import Link from 'next/link';
 
 interface CourseListProps {
   courses: Course[]
   updateCourse: (course: Course) => void
-  // edit: (course: Course) => void
   deleteCourse: (courseId: string) => void
+  // A interface já está correta!
+  startEditCourse: (course: Course) => void 
 }
 
-export default function CourseList({ courses, updateCourse, deleteCourse }: CourseListProps) {
+// ⭐️ Certifique-se de desestruturar a nova prop: startEditCourse
+export default function CourseList({ courses, updateCourse, deleteCourse, startEditCourse }: CourseListProps) {
   const toggleLesson = (courseId: string, lessonId: string) => {
     const course = courses.find(c => c.id === courseId)
     if (course) {
@@ -19,7 +21,11 @@ export default function CourseList({ courses, updateCourse, deleteCourse }: Cour
         l.id === lessonId ? { ...l, completed: !l.completed } : l
       )
 
-      const progress = Math.round((updatedLessons.filter(l => l.completed).length / updatedLessons.length) * 100)
+      // Cálculo de progresso
+      const totalLessons = updatedLessons.length;
+      const completedLessons = updatedLessons.filter(l => l.completed).length;
+      const progress = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
+      
       updateCourse({ ...course, lessons: updatedLessons, progress })
     }
   }
@@ -32,52 +38,78 @@ export default function CourseList({ courses, updateCourse, deleteCourse }: Cour
       ) : (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {courses.map(course => (
-            <div key={course.id} className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="text-lg font-medium text-text mb-2">{course.title}</h3>
-              <p className="text-secondary mb-4">{course.description}</p>
-              <div className="mb-4">
-                <div className="flex justify-between text-sm text-secondary mb-1">
-                  <span>Progresso</span>
-                  <span>{course.progress}%</span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div
-                    className="bg-accent h-2 rounded-full"
-                    style={{ width: `${course.progress}%` }}
-                  ></div>
-                </div>
-              </div>
-              <div className="space-y-2">
-                {course.lessons.map(lesson => (
-                  <div key={lesson.id} className="flex items-center">
-                    <button
-                      onClick={() => toggleLesson(course.id, lesson.id)}
-                      className="mr-2"
-                    >
-                      {lesson.completed ? (
-                        <CheckCircle className="h-5 w-5 text-green-500" />
-                      ) : (
-                        <Circle className="h-5 w-5 text-gray-400" />
-                      )}
-                    </button>
-                    <span className={`text-sm ${lesson.completed ? 'line-through text-secondary' : 'text-text'}`}>
-                      {lesson.title}
-                    </span>
+            <Link 
+              href={`/courses/${course.id}`} // Rota para a nova página de detalhes
+              key={course.id} 
+              className="group" 
+            >
+              <div 
+                className="bg-white p-6 rounded-lg shadow-sm hover:shadow-lg transition-shadow cursor-pointer h-full flex flex-col justify-between"
+              >
+                <div>
+                  <h3 className="text-lg font-medium text-text mb-2">{course.title}</h3>
+                  <p className="text-secondary mb-4">{course.description}</p>
+                  
+                  {/* Barra de Progresso */}
+                  <div className="mb-4">
+                    <div className="flex justify-between text-sm text-secondary mb-1">
+                      <span>Progresso</span>
+                      <span>{course.progress}%</span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div
+                        className="bg-accent h-2 rounded-full"
+                        style={{ width: `${course.progress}%` }}
+                      ></div>
+                    </div>
                   </div>
-                ))}
+                  
+                  {/* Lista de Lições */}
+                  <div className="space-y-2">
+                    {course.lessons.map(lesson => (
+                      <div key={lesson.id} className="flex items-center">
+                        <button
+                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleLesson(course.id, lesson.id); }}
+                          className="mr-2"
+                        >
+                          {lesson.completed ? (
+                            <CheckCircle className="h-5 w-5 text-green-500" />
+                          ) : (
+                            <Circle className="h-5 w-5 text-gray-400" />
+                          )}
+                        </button>
+                        <span className={`text-sm ${lesson.completed ? 'line-through text-secondary' : 'text-text'}`}>
+                          {lesson.title}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                
+                {/* Botões de Ação (Edit/Delete) */}
+                <div className="flex justify-end mt-4 space-x-2">
+                  {/* Botão de Edição */}
+                  <button 
+                    onClick={(e) => { 
+                      e.preventDefault(); 
+                      e.stopPropagation(); 
+                      // ⭐️ CONEXÃO FINAL: Chama a função para iniciar a edição
+                      startEditCourse(course); 
+                    }} 
+                    className="text-secondary hover:text-primary"
+                  >
+                    <Edit className="h-5 w-5" />
+                  </button>
+                  {/* Botão de Deletar */}
+                  <button
+                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); deleteCourse(course.id); }}
+                    className="text-red-500 hover:text-red-700"
+                  >
+                    <Trash2 className="h-5 w-5" />
+                  </button>
+                </div>
               </div>
-              <div className="flex justify-end mt-4 space-x-2">
-                <button className="text-secondary hover:text-primary">
-                  <Edit className="h-5 w-5" />
-                </button>
-                <button
-                  onClick={() => deleteCourse(course.id)}
-                  className="text-red-500 hover:text-red-700"
-                >
-                  <Trash2 className="h-5 w-5" />
-                </button>
-              </div>
-            </div>
+            </Link>
           ))}
         </div>
       )}

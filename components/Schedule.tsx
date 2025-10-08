@@ -5,25 +5,26 @@ import { useState } from 'react'
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isSameDay, addMonths, subMonths } from 'date-fns'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
-type Course = {
-  id: string
-  title: string
-  description: string
-  lessons: Lesson[]
-  progress: number
-}
+// ⭐️ IMPORTAÇÃO CORRETA DOS TIPOS
+// Assume que o arquivo de tipos está em '.. /types/index'
+import { Course, Lesson, ContentBlock } from '../types' 
 
-type Lesson = {
-  id: string
-  title: string
-  content: string
-  type: 'text' | 'video' | 'link' | 'image'
-  completed: boolean
-}
+// 🛑 REMOVIDO: As definições de type Course e type Lesson que estavam aqui
+// foram removidas para usar as importadas.
 
 interface ScheduleProps {
+  // O tipo Course agora é o importado e compatível
   courses: Course[]
 }
+
+// ----------------------------------------------------------------------
+// OBSERVAÇÃO: Ajuste na função allLessons
+// ----------------------------------------------------------------------
+// Sua função allLessons ainda usa lesson.content e lesson.type para exibir,
+// mas a Lesson atualizada não tem esses campos diretamente.
+// Se você precisar exibir detalhes do conteúdo, você precisará acessar:
+// lesson.contents[0].content e lesson.contents[0].type
+// Por agora, vamos manter o código funcional focando apenas no título da lição.
 
 export default function Schedule({ courses }: ScheduleProps) {
   const [currentMonth, setCurrentMonth] = useState(new Date())
@@ -55,8 +56,10 @@ export default function Schedule({ courses }: ScheduleProps) {
     return scheduledLessons[dateKey] || []
   }
 
+  // A tipagem do allLessons agora é resolvida pela importação de Course/Lesson
   const allLessons = courses.flatMap(course =>
-    course.lessons.map(lesson => ({ ...lesson, courseTitle: course.title }))
+    // O TypeScript agora sabe que 'lesson' é o tipo correto
+    course.lessons.map(lesson => ({ ...lesson, courseTitle: course.title })) 
   )
 
   return (
