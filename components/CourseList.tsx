@@ -1,26 +1,13 @@
 'use client'
 
 import { Edit, Trash2, CheckCircle, Circle } from 'lucide-react'
+import { Course, Lesson } from '../types'
 
-type Course = {
-  id: string
-  title: string
-  description: string
-  lessons: Lesson[]
-  progress: number
-}
-
-type Lesson = {
-  id: string
-  title: string
-  content: string
-  type: 'text' | 'video' | 'link' | 'image'
-  completed: boolean
-}
 
 interface CourseListProps {
   courses: Course[]
   updateCourse: (course: Course) => void
+  // edit: (course: Course) => void
   deleteCourse: (courseId: string) => void
 }
 
@@ -31,6 +18,7 @@ export default function CourseList({ courses, updateCourse, deleteCourse }: Cour
       const updatedLessons = course.lessons.map(l =>
         l.id === lessonId ? { ...l, completed: !l.completed } : l
       )
+
       const progress = Math.round((updatedLessons.filter(l => l.completed).length / updatedLessons.length) * 100)
       updateCourse({ ...course, lessons: updatedLessons, progress })
     }

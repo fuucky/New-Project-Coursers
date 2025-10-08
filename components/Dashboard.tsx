@@ -2,40 +2,11 @@
 
 import { useState, useEffect } from 'react'
 import { BookOpen, Calendar, Plus, Settings } from 'lucide-react'
+// Importação correta dos tipos centralizados
+import { Course, Lesson, ContentBlock } from '../types/index' 
 import CourseList from './CourseList'
 import Schedule from './Schedule'
 import AddCourse from './AddCourse'
-
-
-// ------------------------------------------------
-// ⭐️ TIPOS ATUALIZADOS PARA COINCIDIR COM AddCourse
-// ------------------------------------------------
-
-type ContentBlock = {
-  id: string
-  content: string // O URL, ou o texto em si
-  type: 'text' | 'video' | 'link' | 'image'
-}
-
-type Lesson = {
-  id: string
-  title: string
-  completed: boolean
-  // MUDANÇA: Substitui content/type por contents: ContentBlock[]
-  contents: ContentBlock[] 
-}
-
-type Course = {
-  id: string
-  title: string
-  description: string
-  lessons: Lesson[]
-  progress: number
-}
-
-// ------------------------------------------------
-// FIM DOS TIPOS ATUALIZADOS
-// ------------------------------------------------
 
 
 export default function Dashboard() {
@@ -116,7 +87,6 @@ export default function Dashboard() {
       </main>
 
       {showAddCourse && (
-        // O ERRO FOI RESOLVIDO: addCourse agora aceita o novo tipo Course/Lesson
         <AddCourse onAdd={addCourse} onClose={() => setShowAddCourse(false)} />
       )}
     </div>
