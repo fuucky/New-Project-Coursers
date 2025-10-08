@@ -3,7 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '../components/ThemeProvider'
 // Importe o novo componente em vez do ThemeToggle
-import { MountedToggle } from '../components/MountedToggle' 
+import { ThemeToggle } from 'components/ThemeToggle'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -26,7 +26,7 @@ export default function RootLayout({
             </span>
             
             {/* 3. SUBSTITUA: Use o MountedToggle aqui */}
-            <MountedToggle /> 
+            <ThemeToggle /> 
 
           </header>
           
