@@ -2,14 +2,14 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import dynamic from 'next/dynamic'
-import SessionProviderWrapper from './components/SessionProviderWrapper' // Importação relativa
-import { ThemeToggle } from './components/ThemeToggle' // Importação relativa
+import SessionProviderWrapper from '../components/SessionProviderWrapper' // Importação relativa
+import { ThemeToggle } from '../components/ThemeToggle' // Importação relativa
 
 const inter = Inter({ subsets: ['latin'] })
 
 // Dynamic Import para o ThemeProvider.
 const DynamicThemeProvider = dynamic(
-  () => import('./components/ThemeProvider'),
+  () => import('../components/ThemeProvider'),
   {
     ssr: false, // CRÍTICO: Resolve problemas de hidratação do next-themes
     loading: () => null 
