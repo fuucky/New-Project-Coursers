@@ -10,6 +10,8 @@ import { Course, ContentBlock } from '../../../types'
 
 interface CourseDetailsParams {
   courseId: string
+  //Esta linha permite que a interface aceitte outras chaves de string (que é o que o useParams retorna)
+  [key:string]: string | string [];
 }
 
 // ⭐️ FUNÇÃO AUXILIAR: Extrai o ID do vídeo do YouTube (Não causa erro, mas é importante)
