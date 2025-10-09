@@ -1,7 +1,7 @@
 // app/api/register/route.ts
 import { NextResponse } from 'next/server'
 import { PrismaClient } from '@prisma/client'
-import bcrypt from 'bcryptjs' // Usaremos o bcrypt para criptografia segura
+import * as bcrypt from 'bcryptjs' // Usaremos o bcrypt para criptografia segura
 
 // Inicializa o cliente Prisma para interagir com o banco de dados
 const prisma = new PrismaClient()
