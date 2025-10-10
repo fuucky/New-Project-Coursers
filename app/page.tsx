@@ -3,11 +3,15 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
-export default function IndexPage() {
+export default function Page() {
   const router = useRouter()
 
   useEffect(() => {
-    router.replace('/home')
+    if (typeof window !== 'undefined') {
+      const loggedIn = sessionStorage.getItem('isLoggedIn') === 'true'
+      if (loggedIn) router.replace('/home')
+      else router.replace('/login')
+    }
   }, [router])
 
   return null

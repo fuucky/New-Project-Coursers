@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import dynamic from 'next/dynamic'
 
-// Importa Dashboard de forma dinâmica (só no client)
+// Evita SSR (server-side rendering)
 const Dashboard = dynamic(() => import('../../components/Dashboard'), { ssr: false })
 
 export default function HomePage() {
@@ -13,22 +13,23 @@ export default function HomePage() {
   const router = useRouter()
 
   useEffect(() => {
-    // Garante execução apenas no cliente
     if (typeof window !== 'undefined') {
       const loggedIn = sessionStorage.getItem('isLoggedIn') === 'true'
-      if (loggedIn) {
-        setIsLoggedIn(true)
-      } else {
+
+      if (!loggedIn) {
         router.replace('/login')
+      } else {
+        setIsLoggedIn(true)
       }
+
       setLoading(false)
     }
   }, [router])
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-        <p className="text-xl text-gray-600">Carregando...</p>
+      <div className="flex items-center justify-center h-screen">
+        <p className="text-xl text-gray-600 dark:text-gray-300">Carregando...</p>
       </div>
     )
   }
