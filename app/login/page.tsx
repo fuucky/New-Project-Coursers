@@ -15,14 +15,14 @@ export default function LoginPage() {
     setError('')
 
     // Simulação de autenticação
-    if (email === 'teste@mail.com' && password === '123456') {
+    if (email === 'teste@mail.com' && password === '123') {
       // ✅ Salva o estado de login no sessionStorage
       sessionStorage.setItem('isLoggedIn', 'true')
 
       // ✅ Redireciona para /home
       router.push('/home')
     } else {
-      setError('Credenciais inválidas. Use: teste@mail.com / 123456')
+      setError('Credenciais inválidas. Use: teste@mail.com / 123')
     }
   }
 
