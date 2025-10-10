@@ -36,5 +36,5 @@ export default function HomePage() {
 
   if (!isLoggedIn) return null
 
-  return <Dashboard />
+  return Dashboard 
 }
