@@ -9,11 +9,11 @@ module.exports = {
     theme: {
     extend: {
       colors: {
-        primary: '#1f2937', // gray-800
-        secondary: '#374151', // gray-700
-        accent: '#3b82f6', // blue-500
-        background: '#f9fafb', // gray-50
-        text: '#111827', // gray-900
+        primary: '#303030', // 
+        secondary: '#4D4D4D', //  COLOQUEI CORES ALEATORIAS, POREM PUXADAS PARA O CINZA
+        accent: '#999999', // 
+        background: '#f9fafb', // 
+        text: '#17171', // 
       },
     },
   },

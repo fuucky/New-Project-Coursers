@@ -55,7 +55,7 @@ export default function RegisterPage() {
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-xl shadow-2xl dark:bg-gray-800">
         <h2 className="text-3xl font-bold text-center text-blue-600 dark:text-white">Criar Conta</h2>
         <p className="text-center text-gray-600 dark:text-gray-400">
-            Junte-se ao NP-Coursers para organizar seus estudos.
+            Junte-se ao Study Manager para organizar seus estudos.
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-4">

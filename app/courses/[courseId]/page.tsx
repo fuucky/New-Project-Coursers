@@ -191,7 +191,7 @@ export default function CourseDetails() {
               </h3>
               <button
                 onClick={saveNotes}
-                className="flex items-center text-sm px-3 py-1 bg-accent text-white rounded-md hover:bg-blue-600 transition-colors"
+                className="flex items-center text-sm px-3 py-1 bg-gray-700 text-white rounded-md hover:bg-blue-600 transition-colors"
                 title="Salvar Anotações"
               >
                 <Save className="h-4 w-4 mr-1" />

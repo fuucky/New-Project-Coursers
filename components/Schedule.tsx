@@ -90,9 +90,9 @@ export default function Schedule({ courses }: ScheduleProps) {
             return (
               <div
                 key={day.toString()}
-                className={`p-2 border border-gray-200 min-h-[80px] cursor-pointer hover:bg-gray-50 ${
-                  !isSameMonth(day, currentMonth) ? 'text-gray-400' : ''
-                } ${isSameDay(day, selectedDate || new Date()) ? 'bg-accent text-white' : ''}`}
+                className={`p-2 border bg-gray-300 min-h-[80px] cursor-pointer hover:bg-gray-50 ${
+                  !isSameMonth(day, currentMonth) ? 'text-gray-800' : ''
+                } ${isSameDay(day, selectedDate || new Date()) ? 'bg-gray-950 text-white' : ''}`}
                 onClick={() => setSelectedDate(day)}
               >
                 <div className="text-sm font-medium mb-1">
