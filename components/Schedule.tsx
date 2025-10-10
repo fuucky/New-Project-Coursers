@@ -64,9 +64,9 @@ export default function Schedule({ courses }: ScheduleProps) {
 
   return (
     <div>
-      <h2 className="text-xl font-semibold text-text mb-4">Agenda de Estudos</h2>
-      <div className="bg-white rounded-lg shadow-sm p-6">
-        <div className="flex items-center justify-between mb-4">
+      <h2 className="text-xl font-semibold text-white mb-4">Agenda de Estudos</h2>
+      <div className="bg-gray-300 rounded-lg shadow-sm p-6">
+        <div className="flex items-center justify-between mb-6">
           <button onClick={previousMonth} className="p-2 hover:bg-gray-100 rounded-md">
             <ChevronLeft className="h-5 w-5" />
           </button>
@@ -109,8 +109,8 @@ export default function Schedule({ courses }: ScheduleProps) {
         </div>
       </div>
       {selectedDate && (
-        <div className="mt-6 bg-white rounded-lg shadow-sm p-6">
-          <h3 className="text-lg font-medium text-text mb-4">
+        <div className="mt-6 bg-gray-300 rounded-lg shadow-sm p-6">
+          <h3 className="text-lg font-medium text-black mb-4">
             Agendar para {format(selectedDate, 'dd MMMM yyyy', { locale: ptBR })}
           </h3>
           <div className="mb-4">
@@ -121,7 +121,7 @@ export default function Schedule({ courses }: ScheduleProps) {
                   e.target.value = ''
                 }
               }}
-              className="w-full px-3 py-2 border bg-gray-200 dark:bg-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
+              className="w-full px-3 py-2 border bg-gray-200 dark:bg-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
             >
               <option value="">Add Lição...</option>
               {allLessons.map(lesson => (

@@ -8,9 +8,8 @@ import Schedule from './Schedule'
 import AddCourse from './AddCourse'
 
 const theme = {
-  primary: 'text-gray-900',
-  secondary: 'text-blue-600',
-  accent: 'bg-blue-500'
+  primary: 'text-gray-100', // full dark
+  accent: 'bg-gray-700 hover:bg-gray-600', // lighter dark
 }
 
 export default function Dashboard({ onLogout }) {
@@ -56,12 +55,12 @@ export default function Dashboard({ onLogout }) {
   }
 
   return (
-    <div className="h-screen w-screen bg-gray-300 font-inter flex-center flex-col overflow-hidden">
+    <div className="h-screen w-screen bg-gray-800 font-inter flex flex-col overflow-hidden">
       {/* HEADER */}
-      <header className="bg-white shadow-sm flex-shrink-0">
+      <header className="bg-gray-900 shadow flex-shrink-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-3">
-            <h1 className={`text-3xl font-bold ${theme.primary}`}>
+            <h1 className={`text-2xl font-bold text-gray-100`}>
               Study Manager
             </h1>
             <nav className="flex space-x-1 sm:space-x-3 items-center">
@@ -71,7 +70,7 @@ export default function Dashboard({ onLogout }) {
                 className={`flex items-center px-2 sm:px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-colors ${
                   activeTab === 'courses'
                     ? `${theme.accent} text-white shadow-md`
-                    : 'text-gray-500 hover:text-blue-600'
+                    : 'text-gray-400 hover:text-blue-400'
                 }`}
               >
                 <BookOpen className="h-4 w-4 mr-1" />
@@ -84,7 +83,7 @@ export default function Dashboard({ onLogout }) {
                 className={`flex items-center px-2 sm:px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-colors ${
                   activeTab === 'schedule'
                     ? `${theme.accent} text-white shadow-md`
-                    : 'text-gray-500 hover:text-blue-600'
+                    : 'text-gray-400 hover:text-blue-400'
                 }`}
               >
                 <Calendar className="h-4 w-4 mr-1" />
@@ -94,7 +93,7 @@ export default function Dashboard({ onLogout }) {
               {/* Add Curso */}
               <button
                 onClick={() => { setEditingCourse(null); setShowAddCourse(true) }}
-                className="flex items-center px-2 sm:px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium bg-blue-600 text-white hover:bg-blue-700 transition-colors shadow-md"
+                className="flex items-center px-2 sm:px-3 py-1.5 rounded-lg text-white font-medium bg-gray-700 hover:bg-gray-600 transition-colors shadow-md"
               >
                 <Plus className="h-4 w-4 mr-1" />
                 <span className="hidden sm:inline">Add Curso</span>
@@ -103,7 +102,7 @@ export default function Dashboard({ onLogout }) {
               {/* Logout */}
               <button
                 onClick={onLogout}
-                className="flex items-center p-1.5 sm:p-2 rounded-lg text-gray-500 hover:text-red-500 transition-colors"
+                className="flex items-center p-1.5 sm:p-2 rounded-lg text-white hover:text-red-500 transition-colors"
                 title="Sair"
               >
                 <LogOut className="h-4 w-4" />
@@ -114,7 +113,7 @@ export default function Dashboard({ onLogout }) {
       </header>
 
       {/* CONTEÚDO */}
-      <main className="flex-grow overflow-auto max-w-7xl mx-auto py-6 sm:px-6 lg:px-8"> 
+      <main className="flex-1 max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 overflow-auto">
         {activeTab === 'courses' && (
           <CourseList
             courses={courses}

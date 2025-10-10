@@ -32,7 +32,7 @@ export default function CourseList({ courses, updateCourse, deleteCourse, startE
 
   return (
     <div>
-      <h2 className="text-xl font-semibold text-text mb-4">Seus Cursos</h2>
+      <h2 className="text-xl font-semibold text-white mb-4">Seus Cursos</h2>
       {courses.length === 0 ? (
         <p className="text-secondary">Nenhum curso ainda. Adicione seu primeiro curso!</p>
       ) : (

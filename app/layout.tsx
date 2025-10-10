@@ -34,15 +34,7 @@ export default function RootLayout({
         {/* CRÍTICO: SessionProvider para compartilhar o estado de autenticação JWT com toda a aplicação */}
         <SessionProviderWrapper>
           <DynamicThemeProvider> 
-            <header className="flex justify-between items-center p-4 shadow dark:shadow-gray-700 bg-white dark:bg-gray-900">
-              <span className="text-xl font-bold  text-gray-900 dark:text-gray-100">
-                Study Manager
-              </span>
-              
-              <ThemeToggle /> 
-
-            </header>
-            
+                    
             <main className="p-4 bg-white dark:bg-gray-900 min-h-[calc(100vh-64px)]"> 
               {children}
             </main>
