@@ -4,13 +4,17 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import dynamic from 'next/dynamic'
 
-// Evita SSR (server-side rendering)
 const Dashboard = dynamic(() => import('../../components/Dashboard'), { ssr: false })
 
 export default function HomePage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [loading, setLoading] = useState(true)
   const router = useRouter()
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('isLoggedIn')
+    router.push('/login')
+  }
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -36,5 +40,6 @@ export default function HomePage() {
 
   if (!isLoggedIn) return null
 
-  return Dashboard 
+  // ✅ Passando a função de logout
+  return <Dashboard onLogout={handleLogout} />
 }
