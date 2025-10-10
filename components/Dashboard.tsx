@@ -1,127 +1,136 @@
-'use client'
+"use client"
 
 import { useState, useEffect } from 'react'
-import { BookOpen, Calendar, Plus, Settings } from 'lucide-react'
-// Importação correta dos tipos centralizados
-import { Course } from '../types/index' // Simplificado para importar apenas o necessário
+import { BookOpen, Calendar, Plus, LogOut } from 'lucide-react'
+import { Course } from '../types' 
 import CourseList from './CourseList'
 import Schedule from './Schedule'
 import AddCourse from './AddCourse'
 
+const theme = {
+  primary: 'text-gray-900',
+  secondary: 'text-blue-600',
+  accent: 'bg-blue-500'
+}
 
-export default function Dashboard() {
+export default function Dashboard({ onLogout }) {
   const [activeTab, setActiveTab] = useState('courses')
-  const [courses, setCourses] = useState<Course[]>([])
+  const [courses, setCourses] = useState([])
   const [showAddCourse, setShowAddCourse] = useState(false)
-  
-  // ⭐️ NOVO ESTADO: Rastreia o curso que está sendo editado
-  const [editingCourse, setEditingCourse] = useState<Course | null>(null) 
+  const [editingCourse, setEditingCourse] = useState(null) 
 
   useEffect(() => {
     const savedCourses = localStorage.getItem('courses')
-    if (savedCourses) {
-      setCourses(JSON.parse(savedCourses))
-    }
+    if (savedCourses) setCourses(JSON.parse(savedCourses))
   }, [])
 
-  const saveCourses = (newCourses: Course[]) => {
+  const saveCourses = (newCourses) => {
     setCourses(newCourses)
     localStorage.setItem('courses', JSON.stringify(newCourses))
   }
 
-  // A função addCourse será usada APENAS para adição, se você quiser ser explícito.
-  // Mas vamos simplificar e usar updateCourse para lidar tanto com atualização quanto com adição,
-  // ajustando a lógica de estado do modal.
-  const addCourse = (course: Course) => {
-    // Se o curso já tem ID (estamos editando), tratamos como atualização
-    if (courses.some(c => c.id === course.id)) {
-      updateCourse(course);
-    } else {
-      // Se for novo curso
-      const newCourses = [...courses, course]
-      saveCourses(newCourses)
-    }
-    closeAddCourse(); // Usar a nova função para fechar e limpar
+  const addCourse = (course) => {
+    if (courses.some(c => c.id === course.id)) updateCourse(course)
+    else saveCourses([...courses, course])
+    closeAddCourse()
   }
 
-  const updateCourse = (updatedCourse: Course) => {
+  const updateCourse = (updatedCourse) => {
     const newCourses = courses.map(c => c.id === updatedCourse.id ? updatedCourse : c)
     saveCourses(newCourses)
   }
 
-  const deleteCourse = (courseId: string) => {
+  const deleteCourse = (courseId) => {
     const newCourses = courses.filter(c => c.id !== courseId)
     saveCourses(newCourses)
   }
 
-  // ⭐️ NOVA FUNÇÃO: Prepara a edição (é chamada pelo CourseList)
-  const startEditCourse = (course: Course) => {
+  const startEditCourse = (course) => {
     setEditingCourse(course)
     setShowAddCourse(true)
   }
-  
-  // ⭐️ NOVA FUNÇÃO: Limpa o estado e fecha o modal (usada em vez de apenas setShowAddCourse(false))
+
   const closeAddCourse = () => {
-    setEditingCourse(null) // Limpa o curso em edição
+    setEditingCourse(null)
     setShowAddCourse(false)
   }
 
   return (
-    <div className="min-h-screen bg-gray-300">
-      <header className="bg-white shadow-sm">
+    <div className="h-screen w-screen bg-gray-300 font-inter flex-center flex-col overflow-hidden">
+      {/* HEADER */}
+      <header className="bg-white shadow-sm flex-shrink-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
-            <h1 className="text-2xl font-bold text-primary">Aprimore Conhecimentos</h1>
-            <nav className="flex space-x-4">
+          <div className="flex justify-between items-center py-3">
+            <h1 className={`text-3xl font-bold ${theme.primary}`}>
+              Study Manager
+            </h1>
+            <nav className="flex space-x-1 sm:space-x-3 items-center">
+              {/* Cursos */}
               <button
                 onClick={() => setActiveTab('courses')}
-                className={`flex items-center px-3 py-2 rounded-md text-sm font-medium ${
-                  activeTab === 'courses' ? 'bg-accent text-white' : 'text-secondary hover:text-primary'
+                className={`flex items-center px-2 sm:px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-colors ${
+                  activeTab === 'courses'
+                    ? `${theme.accent} text-white shadow-md`
+                    : 'text-gray-500 hover:text-blue-600'
                 }`}
               >
-                <BookOpen className="h-5 w-5 mr-2" />
-                Cursos
+                <BookOpen className="h-4 w-4 mr-1" />
+                <span className="hidden sm:inline">Cursos</span>
               </button>
+
+              {/* Agenda */}
               <button
                 onClick={() => setActiveTab('schedule')}
-                className={`flex items-center px-3 py-2 rounded-md text-sm font-medium ${
-                  activeTab === 'schedule' ? 'bg-accent text-white' : 'text-secondary hover:text-primary'
+                className={`flex items-center px-2 sm:px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-colors ${
+                  activeTab === 'schedule'
+                    ? `${theme.accent} text-white shadow-md`
+                    : 'text-gray-500 hover:text-blue-600'
                 }`}
               >
-                <Calendar className="h-5 w-5 mr-2" />
-                Agenda
+                <Calendar className="h-4 w-4 mr-1" />
+                <span className="hidden sm:inline">Agenda</span>
               </button>
+
+              {/* Add Curso */}
               <button
-                // ⭐️ AJUSTADO: Ao clicar em Add Curso, limpamos o estado de edição, se houver
-                onClick={() => { setEditingCourse(null); setShowAddCourse(true); }}
-                className="flex items-center px-3 py-2 rounded-md text-sm font-medium bg-secondary text-white hover:bg-primary"
+                onClick={() => { setEditingCourse(null); setShowAddCourse(true) }}
+                className="flex items-center px-2 sm:px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium bg-blue-600 text-white hover:bg-blue-700 transition-colors shadow-md"
               >
-                <Plus className="h-5 w-5 mr-2" />
-                Add Curso
+                <Plus className="h-4 w-4 mr-1" />
+                <span className="hidden sm:inline">Add Curso</span>
+              </button>
+
+              {/* Logout */}
+              <button
+                onClick={onLogout}
+                className="flex items-center p-1.5 sm:p-2 rounded-lg text-gray-500 hover:text-red-500 transition-colors"
+                title="Sair"
+              >
+                <LogOut className="h-4 w-4" />
               </button>
             </nav>
           </div>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+      {/* CONTEÚDO */}
+      <main className="flex-grow overflow-auto max-w-7xl mx-auto py-6 sm:px-6 lg:px-8"> 
         {activeTab === 'courses' && (
-          <CourseList 
-            courses={courses} 
-            updateCourse={updateCourse} 
-            deleteCourse={deleteCourse} 
-            // ⭐️ PASSA A NOVA FUNÇÃO PARA O CourseList
-            startEditCourse={startEditCourse} 
+          <CourseList
+            courses={courses}
+            updateCourse={updateCourse}
+            deleteCourse={deleteCourse}
+            startEditCourse={startEditCourse}
           />
         )}
         {activeTab === 'schedule' && <Schedule courses={courses} />}
       </main>
 
       {showAddCourse && (
-        <AddCourse 
-          onAdd={addCourse} 
-          onClose={closeAddCourse} // ⭐️ USA A NOVA FUNÇÃO PARA LIMPAR E FECHAR
-          courseToEdit={editingCourse} // ⭐️ PASSA O CURSO PARA O MODAL
+        <AddCourse
+          onAdd={addCourse}
+          onClose={closeAddCourse}
+          courseToEdit={editingCourse}
         />
       )}
     </div>

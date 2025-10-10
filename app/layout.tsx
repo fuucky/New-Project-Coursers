@@ -17,7 +17,7 @@ const DynamicThemeProvider = dynamic(
 );
 
 export const metadata: Metadata = {
-  title: 'Aprimore Conhecimentos',
+  title: 'Study Manager',
   description: 'Seu sistema de gerenciamento de cursos e estudos',
 }
 
@@ -35,8 +35,8 @@ export default function RootLayout({
         <SessionProviderWrapper>
           <DynamicThemeProvider> 
             <header className="flex justify-between items-center p-4 shadow dark:shadow-gray-700 bg-white dark:bg-gray-900">
-              <span className="text-xl font-bold text-gray-900 dark:text-gray-100">
-                Aprimore Conhecimentos
+              <span className="text-xl font-bold  text-gray-900 dark:text-gray-100">
+                Study Manager
               </span>
               
               <ThemeToggle /> 

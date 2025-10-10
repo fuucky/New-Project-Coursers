@@ -121,7 +121,7 @@ export default function Schedule({ courses }: ScheduleProps) {
                   e.target.value = ''
                 }
               }}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
+              className="w-full px-3 py-2 border bg-gray-200 dark:bg-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
             >
               <option value="">Add Lição...</option>
               {allLessons.map(lesson => (
